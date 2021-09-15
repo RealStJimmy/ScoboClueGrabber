@@ -1,6 +1,6 @@
 # ScoboClueGrabber
 
-<p> Basically, name a file "topics.txt" and put it in the same directory as the "script.exe" file. Then format the file so that every keyword that is searched has is a New line.</p>
+<p> Basically, name a file "topics.txt" and put it in the same directory as the "script.exe" or "script.py" file. Then format the file so that every keyword that is searched has is a New line.</p>
 <p>There will be an example  in the repo. </p>
 
 <h1> THIS CURRENTLY ONLY WORKS WITH FIREFOX </h1>
