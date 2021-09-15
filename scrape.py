@@ -5,7 +5,7 @@ import time
 from bs4 import BeautifulSoup as bs
 import csv 
 import re
-
+import os 
 
 # -*- coding: utf-8 -*-
 alphabets= "([A-Za-z])"
@@ -45,7 +45,7 @@ def split_into_sentences(text):
     return sentences
 
 def get_tossups(keyword):
-    csvfile = open('questionsanswers.csv','w', encoding='utf-8')
+    csvfile = open('questionsanswers.csv','a', encoding='utf-8')
     fields = ["Questions", "Answers"]
     f=csv.DictWriter(csvfile, fieldnames=fields)
     f.writeheader()
@@ -53,7 +53,7 @@ def get_tossups(keyword):
 
     driver = webdriver.Firefox()
     driver.get("https://www.quizdb.org/")
-
+    time.sleep(5)
     search_bar = driver.find_element_by_xpath('/html/body/div/div/div[3]/div/main/div/div[1]/div/div[1]/div[1]/div/input')
     search_bar.send_keys(keyword)
     search_bar.send_keys(Keys.RETURN)
@@ -75,6 +75,9 @@ def get_tossups(keyword):
     driver.close()
     soup = bs(page_source, "html.parser")
     questions = soup.find_all("div", class_="ui segment question-tossup-text")
+    if questions == None:
+        print(x + "has no entries in QuizDB. Skipping...")
+        return
     answers = soup.find_all("div", "ui segment question-tossup-answer")
     questionarray = []
     answerarray = []
@@ -112,3 +115,5 @@ with open('questionsanswers.csv', encoding="utf-8") as csv_file:
             sentances = split_into_sentences(row[0])
             for sentance in sentances: 
                 f.writelines(sentance + ',' + row[1] + '\n')
+
+os.remove("questionsanswers.csv") 
