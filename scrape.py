@@ -5,7 +5,8 @@ import time
 from bs4 import BeautifulSoup as bs
 import csv 
 import re
-import os 
+import os
+import difflib
 
 # -*- coding: utf-8 -*-
 alphabets= "([A-Za-z])"
@@ -113,7 +114,8 @@ with open('questionsanswers.csv', encoding="utf-8") as csv_file:
     for row in csv_reader:
         if row: 
             sentances = split_into_sentences(row[0])
-            for sentance in sentances: 
-                f.writelines(sentance + ',' + row[1] + '\n')
+            for sentance in sentances:
+                if difflib.get_close_matches(sentance, ["Description Acceptable"]) == []:
+                    f.writelines(sentance + ':' + row[1] + '\n')
 
 os.remove("questionsanswers.csv") 
